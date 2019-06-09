@@ -7,7 +7,7 @@ int main(void)
     do{
         printf("Height: ");
         scanf("%d", &k);
-    }while( !(0 <= k && k <= 100) );
+    }while( !(0 <= k && k < 24) );
 
     
     for(i = 0; i < k; i++)
