@@ -4,6 +4,8 @@
 #include <ctype.h>
 // #include <cs50.h> cs50
 
+#define maxLen 100
+
 char* encrpyt( char* str, int key){
 
     char* result = malloc( strlen(str) );
@@ -29,10 +31,10 @@ int main ( int argc, char *argv[] ){
         return 1;
     }
     
-    char* txt = malloc(100);
+    char* txt = malloc(maxLen);
     printf("plaintext: ");
-    fgets(txt, 100, stdin);
-    printf("cipertext: %s\n", encrpyt(txt, atoi(argv[1])));
+    fgets(txt, maxLen, stdin);
+    printf("ciphertext: %s\n", encrpyt(txt, atoi(argv[1])));
 
 
     return 0;
