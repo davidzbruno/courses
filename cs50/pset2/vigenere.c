@@ -30,7 +30,7 @@ char* encrpyt( char* str, char* key){
             j++;
         }
         else if(isupper(str[i])){
-            result[i] = (char)(((int)str[i] - A + (toupper(key[j])-A) )%maxletters + A);
+            result[i] = (char)(((int)str[i] + (toupper(key[j])-A) - A)%maxletters + A);
             j++;
         }
         else
