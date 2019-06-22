@@ -1,16 +1,17 @@
 #include <stdio.h>
-// #include <cs50.h> cs50
+// #include <cs50.h> //cs50
 #include <math.h>
-
-
 
 #define COINS 4
 int coins[COINS] = {1, 5, 10, 25}; 
 
-int cashOut(int cash){
+int cashOut(int cash)
+{
     int result = 0, i;
-    for (i = COINS - 1; i >= 0; --i) { 
-        while ((cash-coins[i]) >= 0) { 
+    for (i = COINS - 1; i >= 0; --i)
+    { 
+        while ((cash - coins[i]) >= 0)
+        { 
             cash -= coins[i]; 
             result++;
         }
@@ -20,7 +21,8 @@ int cashOut(int cash){
 }
 
 
-int main(void){
+int main(void)
+{
     float changeInput;
    
     // CS50 solution
@@ -30,12 +32,14 @@ int main(void){
     // }
     // while (changeInput < 0);
 
-    do{
+    do
+    {
         printf("Change owed: ");
-        scanf("%f",&changeInput);
-    }while(changeInput < 0);
+        scanf("%f", &changeInput);
+    }
+    while (changeInput < 0);
 
     changeInput = round(changeInput * 100);
     
-    printf("%d\n",cashOut(changeInput));
+    printf("%d\n", cashOut(changeInput));
 }
