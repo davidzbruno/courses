@@ -60,14 +60,16 @@ char* cardCheck(char* str){
     if(!isSyntax(str)){
         return "INVALID";
     }
-    
-    if(strncmp(str, "34", 2)==0 || strncmp(str, "37", 2)==0){
+    // American Express uses 15-digit numbers.
+    if( (strlen(str) == 15) && (strncmp(str, "34", 2)==0 || strncmp(str, "37", 2)==0)){
         return "AMEX";
     }
-    else if(strncmp(str, "51", 2)==0 || strncmp(str, "52", 2)==0 ||strncmp(str, "53", 2)==0 || strncmp(str, "54", 2)==0 || strncmp(str, "55", 2)==0){
+    //MasterCard uses 16-digit numbers.
+    else if((strlen(str) == 16) && (strncmp(str, "51", 2)==0 || strncmp(str, "52", 2)==0 ||strncmp(str, "53", 2)==0 || strncmp(str, "54", 2)==0 || strncmp(str, "55", 2)==0)){
         return "MASTERCARD";
     }
-    else if(strncmp(str, "4", 1)==0){
+    //Visa uses 13- and 16-digit numbers
+    else if((strlen(str) == 13 || strlen(str) == 16)&& strncmp(str, "4", 1)==0){
         return "VISA";
     }
     else{
@@ -77,12 +79,13 @@ char* cardCheck(char* str){
 
 int main (void){
 
-    char* input = NULL;
+    char* input = malloc(sizeof(char*));
     do{
         printf("Number: ");
         scanf("%s",input);
+
     } while(!isNumeric(input));
 
-    printf("\n%s\n", cardCheck(input));
+    printf("%s\n", cardCheck(input));
     return 0;
 }
