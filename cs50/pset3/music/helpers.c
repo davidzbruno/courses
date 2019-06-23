@@ -10,8 +10,8 @@
 int duration(string fraction)
 {
     // TODO
-    int numerator = fraction[0] - 0;
-    int denominator = fraction[2] - 0;
+    int numerator = (int)(fraction[0] - '0');
+    int denominator = (int)(fraction[2] - '0');
 
     return (8/denominator) * numerator;
 }
