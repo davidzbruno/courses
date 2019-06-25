@@ -2,6 +2,7 @@
 #include <stdlib.h>
 // #include <stdbool.h>
 
+#include "bmp.h"
 
 int main(int argc, char *argv[]){
 
@@ -15,77 +16,81 @@ int main(int argc, char *argv[]){
     correct usage, as with fprintf (to stderr), and main should return 1.
     */
     if(argc != 4){
-        fprintf(stderr,"Usage: %s [resize-value] [inputfile-name].bmp [outputfile-name].bmp",argv[0]);
+        fprintf(stderr,"Usage: %s [resize-value] [inputfile-name].bmp [outputfile-name].bmp\n",argv[0]);
         return 1;
     }
 
-    char *infile = argv[1];
-    char *outfile = argv[2];
-    FILE *ifp, *ofp;
-    /*
-    If the input file cannot be opened for reading, your program should
-    inform the user as much, as with fprintf (to stderr), and main should return 2.
-    */
-    ifp = fopen(infile, "r");
-    if (ifp == NULL) {
-        fprintf(stderr, "Can't open input file %s!\n",argv[1]);
-        return 2;
+    if(atoi(argv[1]) < 1){
+        fprintf(stderr,"Resize Value [%s] must be positive integer\n",argv[1]);
+        return 1;
     }
 
-    /*
-    If the output file cannot be opened for writing, your program should
-    inform the user as much, as with fprintf (to stderr), and main should return 3.
-    */
-    ofp = fopen(argv[2], "w");
-    if(ofp == NULL){
-        fprintf(stderr, "Can't open output file %s!\n", argv[2]);
-        return 3;
+    FILE *ifp, *ofp;
+    ifp = fopen(argv[2], "r");
+    ofp = fopen(argv[3], "w");
+
+    if (ifp == NULL || ofp == NULL) {
+        fprintf(stderr, "Can't open the file(s) %s %s!\n",argv[2],argv[3]);
+        return 1;
     }
 
     BITMAPFILEHEADER bf;
     fread(&bf, sizeof(BITMAPFILEHEADER), 1, ifp);
-
     BITMAPINFOHEADER bi;
     fread(&bi, sizeof(BITMAPINFOHEADER), 1, ifp);
-
-    /*
-    If the input file is not a 24-bit uncompressed BMP 4.0, your program should 
-    inform the user as much, as with fprintf (to stderr), and main should return 4.
-    */  
     if (bf.bfType != 0x4d42 || bf.bfOffBits != 54 || bi.biSize != 40 ||
         bi.biBitCount != 24 || bi.biCompression != 0){
         fclose(ofp);
         fclose(ifp);
-        fprintf(stderr, "Unsupported file format [input].\n");
+        fprintf(stderr, "Unsupported file format %s.\n",argv[2]);
         return 4;
     }
 
+    int scale = atoi(argv[1]), j = 0, k = 0, inPadding = 0, outPadding = 0;
+    inPadding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+
+    int resize_width = bi.biWidth, resize_height = bi.biHeight;
+    //modify output header fields to work with the newly enlarged picture
+    if(scale > 1){
+        // might not need to change these
+        // bf.bfSize*=scale;
+        // bi.biSize*=scale;
+        // bi.biBitCount*=scale;
+        // bi.biSizeImage = ((sizeof(RGBTRIPLE) * newWidth) + outPadding) * abs(newHeight);
+        // f.bfSize = bi.biSizeImage + sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
+
+        resize_width = bi.biWidth*scale;
+        resize_height = bi.biHeight*scale;
+    }
+    outPadding = (4 - (resize_width * sizeof(RGBTRIPLE)) % 4) % 4;
+
     fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, ofp);
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, ofp);
-    int padding = (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
-    RGBTRIPLE red = {0x00,0x00,0xff};
-    RGBTRIPLE white = {0xff,0xff,0xff};
+    
+    RGBTRIPLE line[resize_width * sizeof(RGBTRIPLE)];
 
-    for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++){
-        for (int j = 0; j < bi.biWidth; j++){
+    for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; ++i){
+        for (j = 0; j < bi.biWidth; ++j){
             RGBTRIPLE triple;
-
             fread(&triple, sizeof(RGBTRIPLE), 1, ifp);
 
-            //change color of red pixels else write them to outfile normally    
-            if(isColor(triple,red) || isColor(triple,white)){
-                fwrite(&white, sizeof(RGBTRIPLE), 1, ofp);
-            }
-            else{
-                makeDarker(&triple);
-                fwrite(&triple, sizeof(RGBTRIPLE), 1, ofp);
+            //add the pixel N times to the array -- scales horizontally
+            for(k = 0; k < scale; ++k){
+                line[(j*scale)+k] = triple;
             }
         }
+        //skip over padding in input
+        fseek(ifp, inPadding, SEEK_CUR);
 
-        fseek(ifp, padding, SEEK_CUR);
-        for (int k = 0; k < padding; k++)
-        {
-            fputc(0x00, ofp);
+        //adds the new line N times to the output -- scales vertically
+        for(j = 0; j < scale; ++j){
+            fwrite(line, sizeof(RGBTRIPLE), 1, ofp);
+
+            //add additional padding in output
+            for (k = 0; k < outPadding; ++k)
+            {
+                fputc(0x00, ofp);
+            }
         }
     }
 
