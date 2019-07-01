@@ -23,7 +23,17 @@
 
 const char *POSSIBLE_CHARS= "abcdefghijklmnopqrstuvwxyz";
 
-// char* strslice(char* str, int index)
+char* strslice(char* str, int numBites){
+    if(str == NULL || numBites < 0) return NULL;
+
+    char* result = malloc(numBites);
+
+    for(int i = 0; i < numBites; ++i){
+        result[i] += str[i]; 
+    }
+
+    return result;
+}
 
 
 const char* decrypt(const char* str){
@@ -41,9 +51,9 @@ const char* decrypt(const char* str){
                         pass[0] = POSSIBLE_CHARS[m];
 
                         printf("%s\n",pass);
-                        printf("%s\n",crypt(pass, "50"));
+                        // printf("%s\n",crypt(pass, "50"));
                         printf("%s\n",str);
-                        printf("%d\n",strcmp(crypt(pass, "50"), str));
+                        // printf("%d\n",strcmp(crypt(pass, "50"), str));
 
                         if(counter == 10 ) return NULL;
                         // //if the current password combination matches the hashed password
@@ -51,11 +61,12 @@ const char* decrypt(const char* str){
                         //     return pass;
                         // }
 
-                        if(strcmp(pass,"abs") == 0){
-                            return pass;
+                        if(strcmp(pass,"jad") == 0){
                             printf("%s\n", str);
                             printf("%d\n",strcmp(crypt(pass, "50"), str));
-                            return crypt(pass, "50");
+                            printf("%s\n", str);
+                            return pass;
+                            // return crypt(pass, "50");
                         }
                         
                     }
@@ -78,10 +89,7 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
-    char* ans = crypt(argv[1],"50");
-
-    printf("%s\n", ans);
-    printf("%s\n", decrypt(ans));
+    // printf("%s\n", decrypt(ans));
 
     return 0;
 }
