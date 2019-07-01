@@ -21,7 +21,7 @@
 #define MAXPASSLEN 5
 // const char *POSSIBLE_CHARS= "\0ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-const char *POSSIBLE_CHARS= "abcdefghijklmnopqrstuvwxyz";
+char *POSSIBLE_CHARS= "ABCDEFGHIJKLMNOOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 char* strslice(char* str, int numBites){
     if(str == NULL || numBites < 0) return NULL;
@@ -36,38 +36,42 @@ char* strslice(char* str, int numBites){
 }
 
 
-const char* decrypt(const char* str){
-    char *pass = malloc(MAXPASSLEN+1);
+char* decrypt(char* str){
+    char *pass = malloc(MAXPASSLEN+1), *temp;
     pass[0] = '\0';pass[1] = '\0';pass[2] = '\0';pass[3] = '\0';pass[4] = '\0';pass[5] = '\0';
     int i = 0, j = 0, k = 0, l = 0, m = 0;
-        
+    
     int counter = 0;
     //brute force attempt for every possible combination
-    for( i = 0; i < 26; ++i){        
-        for( j = 0; j < 26; ++j){
-            for( k = 0; k < 26; ++k){
-                for( l = 0; l < 26; ++l){
-                    for( m = 0; m < 26; ++m){
+    for( i = 0; i < 52; ++i){        
+        for( j = 0; j < 52; ++j){
+            for( k = 0; k < 52; ++k){
+                for( l = 0; l < 52; ++l){
+                    for( m = 0; m < 52; ++m){
                         pass[0] = POSSIBLE_CHARS[m];
 
-                        printf("%s\n",pass);
-                        // printf("%s\n",crypt(pass, "50"));
-                        printf("%s\n",str);
+                        temp = crypt(pass, strslice(str,2));
+                        // printf("%s\n",pass);
+                        // printf("%s\n",temp);
+                        // printf("%s\n",str);
+                        // printf("%d\n", strcmp(temp , str));
                         // printf("%d\n",strcmp(crypt(pass, "50"), str));
-
-                        if(counter == 10 ) return NULL;
-                        // //if the current password combination matches the hashed password
-                        // if( strcmp(crypt(pass, "50") , str) == 0){
-                        //     return pass;
-                        // }
-
-                        if(strcmp(pass,"jad") == 0){
-                            printf("%s\n", str);
-                            printf("%d\n",strcmp(crypt(pass, "50"), str));
-                            printf("%s\n", str);
+                        // counter++;
+                        // if(counter == 10 ) return NULL;
+                        
+                        
+                        //if the current password combination matches the hashed password
+                        if( strcmp(temp , str) == 0){
                             return pass;
-                            // return crypt(pass, "50");
                         }
+
+                        // if(strcmp(pass,"a") == 0){
+                        //     printf("%s\n", temp);
+                        //     // printf("%d\n",strcmp(, str));
+                        //     printf("%s\n", str);
+                        //     return pass;
+                        //     // return crypt(pass, "50");
+                        // }
                         
                     }
                     pass[1] = POSSIBLE_CHARS[l];
@@ -89,7 +93,16 @@ int main(int argc, char *argv[]){
         return 1;
     }
 
-    // printf("%s\n", decrypt(ans));
+    // const char* ans = crypt("rofl", "50");
+    // printf("%s\n",ans);
+
+    printf("%s\n", decrypt(argv[1]));
 
     return 0;
 }
+
+//abc - 50PaJ4.RO0YUo
+//a - 50OqznXGVcOJU
+
+//rofl - 50fkUxYHbnXGw
+//roftl - 50Q9152hEw3Wk
