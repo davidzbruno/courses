@@ -19,8 +19,6 @@
 #include <unistd.h>
 
 #define MAXPASSLEN 5
-// const char *POSSIBLE_CHARS= "\0ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
 char *POSSIBLE_CHARS= "ABCDEFGHIJKLMNOOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 char* strslice(char* str, int numBites){
