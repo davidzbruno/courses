@@ -18,28 +18,76 @@
 #define _XOPEN_SOURCE
 #include <unistd.h>
 
-char *POSSIBLE_CHARS= "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+#define MAXPASSLEN 5
+// const char *POSSIBLE_CHARS= "\0ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-// char* decrypt(char* str){
-//     char *pass = {'','\0','','',''};
+const char *POSSIBLE_CHARS= "abcdefghijklmnopqrstuvwxyz\0";
 
-//     for(){
-//         if( strcmp(crpyt(pass), str) == 0){
-//             return crpyt(pass);
-//         }
-//     }
-// }
+// char* strslice(char* str, int index)
 
+
+char* decrypt(char* str){
+    char pass[MAXPASSLEN+1];
+    pass[5] = '\0';
+    int i = 0, j = 0, k = 0, l = 0, m = 0;
+    int counter = 0;
+    
+    //brute force attempt for every possible combination
+    for( i = 0; i < 26; ++i){
+        pass[0] = POSSIBLE_CHARS[i];
+        
+        for( j = 0; j < 27; ++j){
+            pass[1] = POSSIBLE_CHARS[j];
+
+            if(pass[1] != '\0'){
+                for( k = 0; k < 27; ++k){
+                    pass[2] = POSSIBLE_CHARS[k];
+                    
+                    if(pass[2] != '\0'){
+                        for( l = 0; l < 27; ++l){
+                            pass[3] = POSSIBLE_CHARS[l];
+                            if(pass[3] == '\0') continue;
+                            for( m = 0; m < 27; ++m){
+                                pass[4] = POSSIBLE_CHARS[m];
+                                printf("%s\n",pass);
+
+                                // counter++;
+                                // if(counter == 1000) return NULL;
+                                if(strcmp(pass,"mal") == 0) return NULL;
+                                // //if the current passowrd combination matches the hashed password
+                                // if( strcmp(crypt(pass, "50"), str) == 0){
+                                //     return crypt(pass, "50");
+                                // }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return NULL;
+}
+/*
+
+a0000
+aa000
+aaa00
+aaaa0
+aaaaa
+b0000
+ba000
+ */
 
 int main(int argc, char *argv[]){
     
     if(argc != 2){
-        fprintf(stderr, "Usage: %s [hashed-password]", argv[0]);
+        fprintf(stderr, "Usage: %s [hashed-password]\n", argv[0]);
         return 1;
     }
 
     printf("%s\n",crypt(argv[1],"50"));
-    // printf("%s", decrypt(argv[1]));
+    printf("%s\n", decrypt(argv[1]));
 
     return 0;
 }
