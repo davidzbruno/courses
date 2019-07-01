@@ -21,7 +21,7 @@
 #define MAXPASSLEN 5
 char *POSSIBLE_CHARS= "ABCDEFGHIJKLMNOOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-char* strslice(char* str, int numBites){
+char* strslice(const char* str, int numBites){
     if(str == NULL || numBites < 0) return NULL;
 
     char* result = malloc(numBites);
@@ -34,7 +34,7 @@ char* strslice(char* str, int numBites){
 }
 
 
-char* decrypt(char* str){
+char* decrypt(const char* str){
     char *pass = malloc(MAXPASSLEN+1), *temp;
     pass[0] = '\0';pass[1] = '\0';pass[2] = '\0';pass[3] = '\0';pass[4] = '\0';pass[5] = '\0';
     int i = 0, j = 0, k = 0, l = 0, m = 0;
