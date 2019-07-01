@@ -21,39 +21,42 @@
 #define MAXPASSLEN 5
 // const char *POSSIBLE_CHARS= "\0ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-const char *POSSIBLE_CHARS= "abcdefghijklmnopqrstuvwxyz\0";
+const char *POSSIBLE_CHARS= "abcdefghijklmnopqrstuvwxyz";
 
 // char* strslice(char* str, int index)
 
 
 char* decrypt(char* str){
     char pass[MAXPASSLEN+1];
-    pass[5] = '\0';
+    pass[0] = '\0';pass[1] = '\0';pass[2] = '\0';pass[3] = '\0';pass[4] = '\0';pass[5] = '\0';
     int i = 0, j = 0, k = 0, l = 0, m = 0;
+    
     int counter = 0;
     
     //brute force attempt for every possible combination
-    for( i = 1; i < 26; ++i){        
-        for( j = 0; j < 27; ++j){
-            pass[1] = POSSIBLE_CHARS[j];
-            for( k = 0; k < 27; ++k){
-                pass[2] = POSSIBLE_CHARS[k];
-                for( l = 0; l < 27; ++l){
-                    pass[3] = POSSIBLE_CHARS[l];
-                    for( m = 0; m < 27; ++m){
-                        pass[4] = POSSIBLE_CHARS[m];
+    for( i = 0; i < 26; ++i){        
+        for( j = 0; j < 26; ++j){
+            for( k = 0; k < 26; ++k){
+                for( l = 0; l < 26; ++l){
+                    for( m = 0; m < 26; ++m){
+                        pass[0] = POSSIBLE_CHARS[m];
                         printf("%s\n",pass);
                         // counter++;
                         // if(counter == 1000) return NULL;
-                        if(strcmp(pass,"mal") == 0) return NULL;
-                        // //if the current passowrd combination matches the hashed password
-                        // if( strcmp(crypt(pass, "50"), str) == 0){
-                        //     return crypt(pass, "50");
-                        // }
+                        // if(strcmp(pass,"rob") == 0) return NULL;
+
+                        //if the current password combination matches the hashed password
+                        if( strcmp(crypt(pass, "50"), str) == 0){
+                            return crypt(pass,"50");
+                        }
                     }
+                    pass[1] = POSSIBLE_CHARS[l];
                 }
+                pass[2] = POSSIBLE_CHARS[k];
             }
+            pass[3] = POSSIBLE_CHARS[j];
         }
+        pass[4] = POSSIBLE_CHARS[i];
     }
 
     return NULL;
