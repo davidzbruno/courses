@@ -18,6 +18,7 @@
 #define _XOPEN_SOURCE
 #include <unistd.h>
 
+<<<<<<< HEAD
 char *POSSIBLE_CHARS= "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 // char* decrypt(char* str){
@@ -43,3 +44,91 @@ int main(int argc, char *argv[]){
 
     return 0;
 }
+=======
+#define MAXPASSLEN 5
+char *POSSIBLE_CHARS= "ABCDEFGHIJKLMNOOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+char* strslice(const char* str, int numBites){
+    if(str == NULL || numBites < 0) return NULL;
+
+    char* result = malloc(numBites);
+
+    for(int i = 0; i < numBites; ++i){
+        result[i] += str[i]; 
+    }
+
+    return result;
+}
+
+
+char* decrypt(const char* str){
+    char *pass = malloc(MAXPASSLEN+1), *temp;
+    pass[0] = '\0';pass[1] = '\0';pass[2] = '\0';pass[3] = '\0';pass[4] = '\0';pass[5] = '\0';
+    int i = 0, j = 0, k = 0, l = 0, m = 0;
+    
+    int counter = 0;
+    //brute force attempt for every possible combination
+    for( i = 0; i < 52; ++i){        
+        for( j = 0; j < 52; ++j){
+            for( k = 0; k < 52; ++k){
+                for( l = 0; l < 52; ++l){
+                    for( m = 0; m < 52; ++m){
+                        pass[0] = POSSIBLE_CHARS[m];
+
+                        temp = crypt(pass, strslice(str,2));
+                        // printf("%s\n",pass);
+                        // printf("%s\n",temp);
+                        // printf("%s\n",str);
+                        // printf("%d\n", strcmp(temp , str));
+                        // printf("%d\n",strcmp(crypt(pass, "50"), str));
+                        // counter++;
+                        // if(counter == 10 ) return NULL;
+                        
+                        
+                        //if the current password combination matches the hashed password
+                        if( strcmp(temp , str) == 0){
+                            return pass;
+                        }
+
+                        // if(strcmp(pass,"a") == 0){
+                        //     printf("%s\n", temp);
+                        //     // printf("%d\n",strcmp(, str));
+                        //     printf("%s\n", str);
+                        //     return pass;
+                        //     // return crypt(pass, "50");
+                        // }
+                        
+                    }
+                    pass[1] = POSSIBLE_CHARS[l];
+                }
+                pass[2] = POSSIBLE_CHARS[k];
+            }
+            pass[3] = POSSIBLE_CHARS[j];
+        }
+        pass[4] = POSSIBLE_CHARS[i];
+    }
+
+    return NULL;
+}
+
+int main(int argc, char *argv[]){
+    
+    if(argc != 2){
+        fprintf(stderr, "Usage: %s [hashed-password]\n", argv[0]);
+        return 1;
+    }
+
+    // const char* ans = crypt("rofl", "50");
+    // printf("%s\n",ans);
+
+    printf("%s\n", decrypt(argv[1]));
+
+    return 0;
+}
+
+//abc - 50PaJ4.RO0YUo
+//a - 50OqznXGVcOJU
+
+//rofl - 50fkUxYHbnXGw
+//roftl - 50Q9152hEw3Wk
+>>>>>>> f828c2ad6cf0b8dd4cd74e8b0443a2d00e4274cc
