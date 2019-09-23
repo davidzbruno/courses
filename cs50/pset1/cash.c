@@ -1,10 +1,12 @@
 #include <stdio.h>
-// #include <cs50.h> //cs50
+#include <cs50.h> //cs50
 #include <math.h>
 
 #define COINS 4
 int coins[COINS] = {1, 5, 10, 25}; 
 
+
+// method that counts the change and provides the cashOut
 int cashOut(int cash)
 {
     int result = 0, i;
@@ -25,21 +27,14 @@ int main(void)
 {
     float changeInput;
    
-    // CS50 solution
-    // do
-    // {
-    //     changeInput = get_float("Change owed: ");
-    // }
-    // while (changeInput < 0);
-
     do
     {
-        printf("Change owed: ");
-        scanf("%f", &changeInput);
+        changeInput = get_float("Changed owed: ");
     }
-    while (changeInput < 0);
+    while (changeInput < 0); // loop to ensure that the change is positivee
 
     changeInput = round(changeInput * 100);
     
     printf("%d\n", cashOut(changeInput));
 }
+
