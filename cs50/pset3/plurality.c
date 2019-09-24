@@ -1,3 +1,9 @@
+/*
+Name: David Bruno
+Date: 09/24/2019
+File: plurality.c
+*/
+
 #include <cs50.h>
 #include <stdio.h>
 #include <string.h>

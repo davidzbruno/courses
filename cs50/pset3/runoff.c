@@ -1,3 +1,8 @@
+/*
+Name: David Bruno
+Date: 09/24/2019
+File: runoff.c
+*/
 #include <cs50.h>
 #include <stdio.h>
 
