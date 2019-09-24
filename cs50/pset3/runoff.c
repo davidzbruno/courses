@@ -145,7 +145,7 @@ bool vote(int voter, int rank, string name)
         return  false;
     }
 
-    for (int i = 0; i < candidate_count; i++)
+    for (int i = 0; i < candidate_count; i++) 
     { 
         // Should my program record to see if that 
         if (strcmp(candidates[i].name, name) == 0 )
@@ -169,38 +169,118 @@ bool vote(int voter, int rank, string name)
 
     return false;
 }
+/*
 
+their top choice candidate is represented by preferences[i][0],
+their second choice candidate by preferences[i][1], etc.
+Recall that the candidate struct has a field called eliminated,
+which will be true if the candidate has been eliminated from the election.
+Recall that the candidate struct has a field called votes,
+which you’ll likely want to update for each voter’s preferred candidate.
+*/
 // Tabulate votes for non-eliminated candidates
 void tabulate(void)
 {
     // TODO
+    for (int i = 0; i < voter_count; i++)
+    {
+        int j = 0;
+        while (j  < candidate_count) //update the candidate_count - to enhcance the code
+        {
+            if (!candidates[preferences[i][j]].eliminated)
+            {
+                continue;
+            }
+            
+            candidates[preferences[i][j]].votes += (candidate_count-j);
+        }
+    }
     return;
 }
 
 // Print the winner of the election, if there is one
 bool print_winner(void)
 {
-    // TODO
+    if( candidate_count == 0) return false;
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (candidates[i].votes > voter_count/2)
+        {
+            return true;
+        }
+    }
+
     return false;
 }
 
 // Return the minimum number of votes any remaining candidate has
 int find_min(void)
 {
-    // TODO
-    return 0;
-}
+    if (voter_count == 0 || candidate_count == 0)
+    {
+        return 0;
+    }
 
+    int i = 0, min = voter_count;
+
+    while (i < candidate_count) //update the candidate_count - to enhance the code
+    {
+        if (candidates[i].eliminated)
+        {
+            continue;
+        }
+
+        if (candidates[i].votes < min){
+            min = candidates[i].votes
+        }
+
+    }
+
+    return min;
+}
+/*
+The function should return true if every candidate remaining in the election has the same number of votes, and should return false otherwise.
+Hints
+Recall that a tie happens if every candidate still in the election has the same number of votes. Note, too, that the is_tie function takes an
+argument min, which is the smallest number of votes any candidate currently has. How might you use that information to determine if the election
+is a tie (or, conversely, not a tie)?
+*/
 // Return true if the election is tied between all candidates, false otherwise
 bool is_tie(int min)
 {
-    // TODO
-    return false;
+    int i = 0;
+    while (i  < candidate_count) //update the candidate_count - to enhance the code
+    {
+        if (candidates[i].eliminated)
+        {
+            continue;
+        }
+
+        if (candidates[i].votes != min){
+            return false;
+        }
+
+    }
+
+    return true;
 }
 
 // Eliminate the candidate (or candidiates) in last place
 void eliminate(int min)
 {
-    // TODO
+    int i = 0;
+    while (i  < candidate_count) //update the candidate_count - to enhance the code
+    {
+        if (candidates[i].eliminated)
+        {
+            continue;
+        }
+
+        if (candidates[i].votes <= min){
+            candidates[i].eliminated = true;
+        }
+
+    }
     return;
 }
