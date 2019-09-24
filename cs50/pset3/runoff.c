@@ -166,25 +166,15 @@ bool vote(int voter, int rank, string name)
             {
                 winningCount++;
             }
-
-            // The vote function in this case should return true to indicate a successful ballot.
-            return true;
         }
     }
 
-    return false;
-}
-/*
+    // The vote function in this case should return true to indicate a successful ballot.
+    return true;
+    }
 
-their top choice candidate is represented by preferences[i][0],
-their second choice candidate by preferences[i][1], etc.
-Recall that the candidate struct has a field called eliminated,
-which will be true if the candidate has been eliminated from the election.
-Recall that the candidate struct has a field called votes,
-which you’ll likely want to update for each voter’s preferred candidate.
-*/
 // Tabulate votes for non-eliminated candidates
-void tabulate(void)
+void tabulate(void) // i think i should move over to a for-loop because I might be dealing w/ errors
 {
     // TODO
     for (int i = 0; i < voter_count; i++)
@@ -244,13 +234,7 @@ int find_min(void)
 
     return min;
 }
-/*
-The function should return true if every candidate remaining in the election has the same number of votes, and should return false otherwise.
-Hints
-Recall that a tie happens if every candidate still in the election has the same number of votes. Note, too, that the is_tie function takes an
-argument min, which is the smallest number of votes any candidate currently has. How might you use that information to determine if the election
-is a tie (or, conversely, not a tie)?
-*/
+
 // Return true if the election is tied between all candidates, false otherwise
 bool is_tie(int min)
 {
