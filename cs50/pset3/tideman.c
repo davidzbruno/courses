@@ -185,7 +185,8 @@ void add_pairs(void)
 }
 
 /*
-The function should sort the pairs array in decreasing order of strength of victory, where strength of victory is defined to be the number of voters who prefer the preferred candidate. If multiple pairs have the same strength of victory, you may assume that the order does not matter.
+The function should sort the pairs array in decreasing order of strength of victory, where strength of victory is defined to be the
+number of voters who prefer the preferred candidate. If multiple pairs have the same strength of victory, you may assume that the order does not matter.
 Complete the lock_pairs function.
 The function should create the locked graph, adding all edges in decreasing order of victory strength so long as the edge would not create a cycle.
 Complete the print_winner function.
@@ -193,9 +194,15 @@ The function should print out the name of the candidate who is the source of the
 */
 
 // Sort pairs in decreasing order by strength of victory
+// implementing a merge sort alogrithm
 void sort_pairs(void)
 {
-    // TODO
+    // for every pair of candidates where one candidate is ahead
+    for (int i = 0; i < pair_count; i++)
+    {
+        pairs[i].winner
+    }
+
     return;
 }
 
