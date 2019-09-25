@@ -137,7 +137,6 @@ bool vote(int rank, string name, int ranks[])
 
     // Should i make a test to confirm that ranks is not filled w/ empty values?
 
-
     // The vote function in this case should return true to indicate a successful ballot.
     return true;
     }
@@ -147,28 +146,51 @@ void record_preferences(int ranks[])
     for (int i = 0; i < candidate_count-1; i++)
     {
         preference[ranks[i]][ranks[i+1]]++;
+        // printf("Candidate #%d is %d votes ahead of Candidate #%d", ranks[i], preference[ranks[i]][ranks[i+1]], ranks[i+1]);
     }
 
     return;
 }
-/*
-The function should add all pairs of candidates where one candidate is preferred to the pairs array.
-A pair of candidates who are tied (one is not preferred over the other) should not be added to the array.
-The function should update the global variable pair_count to be the number of pairs of candidates.
-(The pairs should thus all be stored between pairs[0] and pairs[pair_count - 1], inclusive).
-*/
+
 // Record pairs of candidates where one is preferred over the other
 void add_pairs(void)
 {
-    for (int i = 0; i < candidate_count-1; i++)
+    for (int i = 0, j = 0; i < candidate_count-1; i++)
     {
-        if(candidates)
-    }
-    if(){
+        int votesA = preferences[i][i+1];
+        int votesB = preferences[i+1][i];;
+        pair temp;
 
+        if(votesA == votesB)
+        {
+            continue;
+        }
+        else if(votesA > votesB)
+        {
+            temp.winner = votesA;
+            temp.loser = votesB;
+        }
+        else
+        {
+            temp.winner = votesB;
+            temp.loser = votesA;
+        }
+
+        pair[j] = temp;
+        // printf("pair added");
+        pair_count++;
     }
+
     return;
 }
+
+/*
+The function should sort the pairs array in decreasing order of strength of victory, where strength of victory is defined to be the number of voters who prefer the preferred candidate. If multiple pairs have the same strength of victory, you may assume that the order does not matter.
+Complete the lock_pairs function.
+The function should create the locked graph, adding all edges in decreasing order of victory strength so long as the edge would not create a cycle.
+Complete the print_winner function.
+The function should print out the name of the candidate who is the source of the graph. You may assume there will not be more than one source.
+*/
 
 // Sort pairs in decreasing order by strength of victory
 void sort_pairs(void)
