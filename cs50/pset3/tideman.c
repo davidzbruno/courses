@@ -141,18 +141,32 @@ bool vote(int rank, string name, int ranks[])
     // The vote function in this case should return true to indicate a successful ballot.
     return true;
     }
-
 // Update preferences given one voter's ranks
 void record_preferences(int ranks[])
 {
-    // TODO
+    for (int i = 0; i < candidate_count-1; i++)
+    {
+        preference[ranks[i]][ranks[i+1]]++;
+    }
+
     return;
 }
-
+/*
+The function should add all pairs of candidates where one candidate is preferred to the pairs array.
+A pair of candidates who are tied (one is not preferred over the other) should not be added to the array.
+The function should update the global variable pair_count to be the number of pairs of candidates.
+(The pairs should thus all be stored between pairs[0] and pairs[pair_count - 1], inclusive).
+*/
 // Record pairs of candidates where one is preferred over the other
 void add_pairs(void)
 {
-    // TODO
+    for (int i = 0; i < candidate_count-1; i++)
+    {
+        if(candidates)
+    }
+    if(){
+
+    }
     return;
 }
 

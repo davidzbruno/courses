@@ -176,11 +176,9 @@ bool vote(int voter, int rank, string name)
 // Tabulate votes for non-eliminated candidates
 void tabulate(void) // i think i should move over to a for-loop because I might be dealing w/ errors
 {
-    // TODO
     for (int i = 0; i < voter_count; i++)
     {
-        int j = 0;
-        while (j  < candidate_count) //update the candidate_count - to enhcance the code
+        for (int j = 0; j < candidate_count; j++)
         {
             if (!candidates[preferences[i][j]].eliminated)
             {
@@ -217,16 +215,17 @@ int find_min(void)
         return 0;
     }
 
-    int i = 0, min = voter_count;
+    int min = voter_count;
 
-    while (i < candidate_count) //update the candidate_count - to enhance the code
+    for (int i = 0; i < candidate_count; i++)
     {
         if (candidates[i].eliminated)
         {
             continue;
         }
 
-        if (candidates[i].votes < min){
+        if (candidates[i].votes < min)
+        {
             min = candidates[i].votes
         }
 
@@ -238,10 +237,8 @@ int find_min(void)
 // Return true if the election is tied between all candidates, false otherwise
 bool is_tie(int min)
 {
-    int i = 0;
-    while (i  < candidate_count) //update the candidate_count - to enhance the code
-    {
-        if (candidates[i].eliminated)
+    for (int i = 0; i < candidate_count; i++)
+    {   if (candidates[i].eliminated)
         {
             continue;
         }
@@ -258,8 +255,7 @@ bool is_tie(int min)
 // Eliminate the candidate (or candidiates) in last place
 void eliminate(int min)
 {
-    int i = 0;
-    while (i  < candidate_count) //update the candidate_count - to enhance the code
+    for (int i = 0; i < candidate_count; i++)
     {
         if (candidates[i].eliminated)
         {
